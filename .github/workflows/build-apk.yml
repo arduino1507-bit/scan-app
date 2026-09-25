@@ -15,10 +15,10 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 22
 
       - name: Set up JDK 17
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
           java-version: 17
@@ -33,7 +33,6 @@ jobs:
           npm install @capacitor/core @capacitor/cli @capacitor/android --legacy-peer-deps
           npx cap init "BarcodeScanner" "com.scanapp" --web-dir dist
           npx cap add android
-          # Добавляем разрешения на камеру и вибрацию в манифест Android
           sed -i 's/<application/<uses-permission android:name="android.permission.CAMERA" \/>\n    <uses-permission android:name="android.permission.VIBRATE" \/>\n    <uses-feature android:name="android.hardware.camera" android:required="true" \/>\n    <application/' android/app/src/main/AndroidManifest.xml
 
       - name: Build APK with Gradle
