@@ -25,20 +25,19 @@ jobs:
 
       - name: Install dependencies & Build Web
         run: |
+          npm install @capacitor/core @capacitor/cli @capacitor/android @capacitor-mlkit/barcode-scanning --legacy-peer-deps
           npm install --legacy-peer-deps
           npm run build
 
       - name: Setup Capacitor Android
         run: |
-          npm install @capacitor/core @capacitor/cli @capacitor/android --legacy-peer-deps
-          # Устанавливаем нативный сканер Google ML Kit
-          npm install @capacitor-mlkit/barcode-scanning --legacy-peer-deps
           npx cap init "BarcodeScanner" "com.scanapp" --web-dir dist
           npx cap add android
-          
+          # Разрешения на камеру, вспышку и виброотклик
           sed -i 's/<application/<uses-permission android:name="android.permission.CAMERA" \/>\n    <uses-permission android:name="android.permission.FLASHLIGHT" \/>\n    <uses-permission android:name="android.permission.VIBRATE" \/>\n    <application/' android/app/src/main/AndroidManifest.xml
+          # Включение аппаратного модуля распознавания Google ML Kit
           sed -i '/<application/a \        <meta-data android:name="com.google.mlkit.vision.DEPENDENCIES" android:value="barcode" \/>' android/app/src/main/AndroidManifest.xml
-     
+
       - name: Build APK with Gradle
         run: |
           cd android
