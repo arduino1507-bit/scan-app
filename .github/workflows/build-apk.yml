@@ -31,10 +31,14 @@ jobs:
       - name: Setup Capacitor Android
         run: |
           npm install @capacitor/core @capacitor/cli @capacitor/android --legacy-peer-deps
+          # Устанавливаем нативный сканер Google ML Kit
+          npm install @capacitor-mlkit/barcode-scanning --legacy-peer-deps
           npx cap init "BarcodeScanner" "com.scanapp" --web-dir dist
           npx cap add android
-          sed -i 's/<application/<uses-permission android:name="android.permission.CAMERA" \/>\n    <uses-permission android:name="android.permission.VIBRATE" \/>\n    <uses-feature android:name="android.hardware.camera" android:required="true" \/>\n    <application/' android/app/src/main/AndroidManifest.xml
-
+          
+          sed -i 's/<application/<uses-permission android:name="android.permission.CAMERA" \/>\n    <uses-permission android:name="android.permission.FLASHLIGHT" \/>\n    <uses-permission android:name="android.permission.VIBRATE" \/>\n    <application/' android/app/src/main/AndroidManifest.xml
+          sed -i '/<application/a \        <meta-data android:name="com.google.mlkit.vision.DEPENDENCIES" android:value="barcode" \/>' android/app/src/main/AndroidManifest.xml
+     
       - name: Build APK with Gradle
         run: |
           cd android
