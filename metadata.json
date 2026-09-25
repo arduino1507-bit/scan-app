@@ -1,0 +1,6 @@
+{
+  "name": "Сканер штрих-кодів у Google Таблицю",
+  "description": "Мобільний веб-додаток для сканування штрих-кодів зі збереженням у Google Таблицю (таблиця Scan із щоденними вкладками), локальним сховищем, ліхтариком, звуком/вібрацією та надсиланням у WhatsApp і на принтер Niimbot.",
+  "requestFramePermissions": ["camera"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
